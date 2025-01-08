@@ -1,0 +1,149 @@
+program TestVatanSms;
+
+{$APPTYPE CONSOLE}
+
+uses
+  VatanSmsClient, System.JSON, System.SysUtils;
+
+procedure TestSendSms;
+var
+  SmsClient: TVatanSmsClient;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Writeln(SmsClient.SendSms(['5xxxxxxxxx'], 'Test mesajı', 'TEST'));
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+procedure TestSendNtoNSms;
+var
+  SmsClient: TVatanSmsClient;
+  Phones: TArray<TJSONObject>;
+  Phone1, Phone2: TJSONObject;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Phone1 := TJSONObject.Create;
+    Phone1.AddPair('phone', '5xxxxxxxxx');
+    Phone1.AddPair('message', 'Mesaj 1');
+
+    Phone2 := TJSONObject.Create;
+    Phone2.AddPair('phone', '5xxxxxxxxx');
+    Phone2.AddPair('message', 'Mesaj 2');
+
+    Phones := TArray<TJSONObject>.Create(Phone1, Phone2);
+    Writeln(SmsClient.SendNtoNSms(Phones, 'TEST'));
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+procedure TestGetSenderNames;
+var
+  SmsClient: TVatanSmsClient;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Writeln(SmsClient.GetSenderNames);
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+procedure TestGetUserInformation;
+var
+  SmsClient: TVatanSmsClient;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Writeln(SmsClient.GetUserInformation);
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+procedure TestGetReportDetail;
+var
+  SmsClient: TVatanSmsClient;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Writeln(SmsClient.GetReportDetail(123456));
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+procedure TestGetReportsByDate;
+var
+  SmsClient: TVatanSmsClient;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Writeln(SmsClient.GetReportsByDate('2023-01-01', '2023-12-31'));
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+procedure TestGetReportStatus;
+var
+  SmsClient: TVatanSmsClient;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Writeln(SmsClient.GetReportStatus(123456));
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+procedure TestCancelFutureSms;
+var
+  SmsClient: TVatanSmsClient;
+begin
+  SmsClient := TVatanSmsClient.Create('API_ID', 'API_KEY');
+  try
+    Writeln(SmsClient.CancelFutureSms(123));
+  finally
+    SmsClient.Free;
+  end;
+end;
+
+begin
+  try
+    Writeln('Testing VatanSMS Delphi SDK...');
+    Writeln('----------------------------');
+
+    Writeln('1-to-N SMS Gönderimi');
+    TestSendSms;
+
+    Writeln('N-to-N SMS Gönderimi');
+    TestSendNtoNSms;
+
+    Writeln('Gönderici Adlarını Sorgulama');
+    TestGetSenderNames;
+
+    Writeln('Kullanıcı Bilgilerini Sorgulama');
+    TestGetUserInformation;
+
+    Writeln('Rapor Detayı Sorgulama');
+    TestGetReportDetail;
+
+    Writeln('Tarih Bazlı Rapor Sorgulama');
+    TestGetReportsByDate;
+
+    Writeln('Sonuç Sorgusu');
+    TestGetReportStatus;
+
+    Writeln('İleri Tarihli SMS İptali');
+    TestCancelFutureSms;
+
+    Writeln('Tüm testler tamamlandı.');
+  except
+    on E: Exception do
+      Writeln('Bir hata oluştu: ', E.Message);
+  end;
+end.

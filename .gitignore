@@ -1,0 +1,63 @@
+# Delphi binary and build files
+*.dcu
+*.exe
+*.dll
+*.bpl
+*.dcp
+*.map
+*.tds
+*.o
+*.obj
+*.a
+*.lib
+*.res
+*.dbg
+*.dsk
+*.ipch
+
+# Delphi temporary and backup files
+*.~*
+*.bak
+*.tmp
+*.log
+
+# Delphi configuration and settings
+*.local
+*.tvsconfig
+*.identcache
+*.groupproj.local
+*.rs*
+*.state
+
+# Intermediate and cached files
+__history/
+__recovery/
+__debug/
+__temp/
+*.tvssettings
+
+# IDE and editor files
+*.groupproj
+*.dsk
+*.identcache
+
+# Backup files
+*.~pas
+*.~dfm
+*.~fmx
+
+# Output directories
+output/
+bin/
+build/
+release/
+debug/
+
+# Node-related files (if any tools like npm are used)
+node_modules/
+npm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
